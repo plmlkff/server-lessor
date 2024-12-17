@@ -38,11 +38,14 @@ ALTER TABLE
 
 ALTER TABLE
     "invitation"
-    ADD CONSTRAINT "invitation_refferal_id_foreign" FOREIGN KEY ("refferal_id") REFERENCES "user" ("id");
+    ADD CONSTRAINT "invitation_referral_id_foreign" FOREIGN KEY ("referral_id") REFERENCES "user" ("id");
 ALTER TABLE
     "invitation"
-    ADD CONSTRAINT "invitation_refferee_id_foreign" FOREIGN KEY ("refferee_id") REFERENCES "user" ("id");
+    ADD CONSTRAINT "invitation_referee_id_foreign" FOREIGN KEY ("referee_id") REFERENCES "user" ("id");
 
 ALTER TABLE
     "protocol_to_server"
     ADD CONSTRAINT "protocol_to_server_protocol_id_foreign" FOREIGN KEY ("protocol_id") REFERENCES "protocol" ("id");
+
+ALTER TABLE protocol_to_server
+    ADD CONSTRAINT "protocol_to_server_server_id_foreign" FOREIGN KEY (server_id) REFERENCES server;
