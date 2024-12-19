@@ -1,54 +1,63 @@
 package ru.itmo.serverlessorback.utils;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.vavr.control.Either;
-import lombok.Data;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import ru.itmo.serverlessorback.configuration.JwtProperties;
 import ru.itmo.serverlessorback.domain.entity.enums.Role;
-import ru.itmo.serverlessorback.security.config.JwtConfig;
 import ru.itmo.serverlessorback.security.entity.JwtUserDetails;
 
 import java.security.Key;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
-    private final String SECRET_KEY;
+    private final JwtProperties jwtProperties;
 
-    private final Long TOKEN_LIFE_TIME;
+    private Key key;
 
-    private final Key key;
-
-    public JwtUtil(JwtConfig jwtConfig) {
-        this.TOKEN_LIFE_TIME = jwtConfig.getLifeTime();
-        this.SECRET_KEY = jwtConfig.getSecret();
-        this.key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    @PostConstruct
+    public void init() {
+        this.key = getSigningKey();
     }
 
     public String createToken(UserDetails userDetails) {
         Claims claims = Jwts.claims();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         claims.put("roles", String.join(",", roles));
-
+        System.out.println(userDetails.getUsername());
+        System.out.println(key.toString());
         return Jwts.builder()
-                .setSubject(userDetails.getUsername()) // Добавляем subject (имя пользователя)
-                .setIssuedAt(new Date()) // Устанавливаем дату выпуска
                 .setClaims(claims)
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_LIFE_TIME)) // Устанавливаем время жизни токена
-                .signWith(key) // Подписываем токен с помощью секретного ключа
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getLifeTime()))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public Either<JwtException, UserDetails> verifyToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
-                    .setSigningKey(key) // Устанавливаем секретный ключ для проверки подписи
+                    .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(token); // Парсим и проверяем токен
+                    .parseClaimsJws(token);
 
             JwtUserDetails userDetails = new JwtUserDetails();
             String rolesString = claims.getBody().get("roles", String.class);
@@ -58,9 +67,14 @@ public class JwtUtil {
             userDetails.setRoles(roles);
 
             return Either.right(userDetails);
-        } catch (Exception e){
+        } catch (Exception e) {
             return Either.left(new JwtException(e.getMessage()));
         }
+    }
+
+    private Key getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecret());
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     private Set<Role> stringToRoles(String roleString) {

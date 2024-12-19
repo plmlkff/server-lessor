@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itmo.serverlessorback.controller.model.response.ErrorResponse;
 import ru.itmo.serverlessorback.exception.NotFoundException;
-import ru.itmo.serverlessorback.service.TariffServiceImpl;
+import ru.itmo.serverlessorback.service.impl.TariffServiceImpl;
 import ru.itmo.serverlessorback.utils.HttpResponse;
 
 @RestController

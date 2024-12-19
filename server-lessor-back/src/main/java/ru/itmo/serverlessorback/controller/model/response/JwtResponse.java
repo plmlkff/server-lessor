@@ -3,6 +3,6 @@ package ru.itmo.serverlessorback.controller.model.response;
 import lombok.Data;
 
 @Data
-class JwtResponse {
+public class JwtResponse {
     private String accessToken;
 }

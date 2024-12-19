@@ -13,6 +13,14 @@ public class HttpResponse {
         return error(HttpStatus.BAD_REQUEST, body);
     }
 
+    public static ResponseEntity<ErrorResponse> conflict(ErrorResponse body) {
+        return error(HttpStatus.CONFLICT, body);
+    }
+
+    public static ResponseEntity<ErrorResponse> unauthorized(ErrorResponse body) {
+        return error(HttpStatus.UNAUTHORIZED, body);
+    }
+
     public static ResponseEntity<ErrorResponse> unexpectedError(ErrorResponse body) {
         return error(HttpStatus.INTERNAL_SERVER_ERROR, body);
     }
