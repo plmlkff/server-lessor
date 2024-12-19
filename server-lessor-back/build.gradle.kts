@@ -30,6 +30,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("io.vavr:vavr:0.10.5")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.4.0")
+    implementation("com.jcraft:jsch:0.1.54")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
