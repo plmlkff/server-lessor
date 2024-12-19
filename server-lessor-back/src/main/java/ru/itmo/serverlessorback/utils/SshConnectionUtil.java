@@ -17,7 +17,7 @@ public class SshConnectionUtil {
     private static final ExecutorService commandExecutor = Executors.newCachedThreadPool();
 
     @Data
-    public static class SshCredentials{
+    public static class SshCredentials {
         private final String username;
 
         private final String password;
@@ -49,7 +49,7 @@ public class SshConnectionUtil {
         return commandExecutor.submit(() -> executeCommand(command, credentials));
     }
 
-    private static Session createAndConfigureSession(SshCredentials credentials) throws Exception{
+    private static Session createAndConfigureSession(SshCredentials credentials) throws Exception {
         var connection = new JSch();
 
         var session = connection.getSession(credentials.username, credentials.host, credentials.port);
@@ -63,17 +63,17 @@ public class SshConnectionUtil {
         int loopsCounter = 0;
         channel.connect();
 
-        while (channel.isConnected() && loopsCounter++ < WAITING_LOOP_ITERATION_LIMIT){
+        while (channel.isConnected() && loopsCounter++ < WAITING_LOOP_ITERATION_LIMIT) {
             Thread.sleep(THREAD_WAITING_TIME_IN_MS);
         }
 
     }
 
-    private static void closeResources(Session session, Channel channel){
-        if (session != null){
+    private static void closeResources(Session session, Channel channel) {
+        if (session != null) {
             session.disconnect();
         }
-        if (channel != null){
+        if (channel != null) {
             channel.disconnect();
         }
     }
