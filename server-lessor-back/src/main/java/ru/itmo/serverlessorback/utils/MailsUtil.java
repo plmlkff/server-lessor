@@ -1,8 +1,6 @@
 package ru.itmo.serverlessorback.utils;
 
 import jakarta.mail.*;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import ru.itmo.serverlessorback.utils.builder.MessageBuilder;
 
 import java.util.List;
