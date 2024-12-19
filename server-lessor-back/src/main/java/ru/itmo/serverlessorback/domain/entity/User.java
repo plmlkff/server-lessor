@@ -38,4 +38,12 @@ public class User {
 
     @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
     private List<Transaction> transactions;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_to_role",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<User> users;
 }
