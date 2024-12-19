@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itmo.serverlessorback.controller.model.response.ErrorResponse;
 import ru.itmo.serverlessorback.exception.NotFoundException;
-import ru.itmo.serverlessorback.service.TariffService;
+import ru.itmo.serverlessorback.service.TariffServiceImpl;
 import ru.itmo.serverlessorback.utils.HttpResponse;
 
 @RestController
 @RequestMapping("/api/tariffs")
 @RequiredArgsConstructor
 public class TariffController {
-    private final TariffService tariffService;
+    private final TariffServiceImpl tariffServiceImpl;
 
-    @GetMapping("/")
-    public ResponseEntity<?> getTariffById() {
-        return toResponse(tariffService.findAllTariffs());
+    @GetMapping({"/", ""})
+    public ResponseEntity<?> getAllTariffs() {
+        return toResponse(tariffServiceImpl.getAllTariffs());
     }
 
     public ResponseEntity<?> toResponse(Either<? extends Exception, ?> either) {

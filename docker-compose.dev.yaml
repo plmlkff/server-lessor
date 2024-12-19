@@ -1,0 +1,14 @@
+services:
+  postgres:
+    container_name: "is_course_postgres"
+    image: postgres:15
+    ports:
+      - 5432:5432
+    healthcheck:
+      start_period: 1s
+      test:
+        ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}

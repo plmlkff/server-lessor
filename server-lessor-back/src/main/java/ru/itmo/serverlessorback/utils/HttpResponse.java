@@ -2,16 +2,11 @@ package ru.itmo.serverlessorback.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import static org.springframework.http.ResponseEntity.ok;
 import ru.itmo.serverlessorback.controller.model.response.ErrorResponse;
 
 public class HttpResponse {
-//    public static ResponseEntity<Void> ok() {
-//        return ResponseEntity.ok().build();
-//    }
-
     public static <T> ResponseEntity<T> ok(T body) {
-        return ok().body(body);
+        return ResponseEntity.ok().body(body);
     }
 
     public static ResponseEntity<ErrorResponse> badRequest(ErrorResponse body) {
