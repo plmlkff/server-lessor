@@ -33,8 +33,7 @@ class ConfigurationController(
             userDetails.username,
             createConfigurationRequest.country,
             createConfigurationRequest.protocolType
-        )
-            .toResponse()
+        ).toResponse()
     }
 
     @DeleteMapping("/{configurationId}")
@@ -63,9 +62,7 @@ class ConfigurationController(
 
                 is IllegalStateException -> HttpResponse.conflict(ErrorResponse(error.message))
 
-                else -> HttpResponse.unexpectedError(
-                    ErrorResponse("Unexpected error: ${error.message}")
-                )
+                else -> throw error
             }
         },
         ifRight = HttpResponse::ok

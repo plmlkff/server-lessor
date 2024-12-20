@@ -30,9 +30,8 @@ class TransactionAdminController(
         ifLeft = { error ->
             when (error) {
                 is NotFoundException -> HttpResponse.notFound(ErrorResponse(error.message))
-                else -> HttpResponse.unexpectedError(
-                    ErrorResponse("Unexpected error: ${error.message}")
-                )
+
+                else -> throw error
             }
         },
         ifRight = HttpResponse::ok

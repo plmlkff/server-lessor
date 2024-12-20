@@ -37,7 +37,7 @@ class ConfigurationServiceImpl(
         val tariff = subscription.tariff
 
         if (tariff == null || currentConfigCount >= tariff.configCount) {
-            throw IllegalStateException("Превышено количество конфигураций: максимум ${tariff.configCount}")
+            throw IllegalStateException("Превышено количество конфигураций для вашего тарифа: максимум ${tariff?.configCount ?: 0}")
         }
         if (LocalDateTime.now(ZoneOffset.UTC) > subscription?.expirationTime) {
             throw IllegalStateException("Ваша подписка истекла после ${subscription?.expirationTime}")
@@ -57,7 +57,7 @@ class ConfigurationServiceImpl(
             this.subscription = subscription
             this.server = server
             this.protocol = protocol
-        }   // TODO: отправить пароль на почту
+        }   // TODO: отправить пароль на почту и создать и создать пользователя на сервере
         configurationRepository.save(configuration)
 
         ConfigurationResponse.fromDomain(configuration)
@@ -74,7 +74,7 @@ class ConfigurationServiceImpl(
         val configuration = configurationRepository.findById(configurationId)
             .orElseThrow { NotFoundException("Конфигурации с указанным идентификатором не существует") }
 
-        if (configuration.subscription.owner.id != configurationId || Role.ADMIN !in user.roles.map { it.name }) {
+        if (configuration.subscription.owner.login != login && Role.ADMIN !in user.roles.map { it.name }) {
             throw ForbiddenException("Невозможно удалить чужую конфигурацию")
         }
         configuration.deletedTime = LocalDateTime.now(ZoneOffset.UTC)

@@ -4,6 +4,7 @@ package ru.itmo.serverlessorback.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,6 +22,15 @@ public class GlobalExceptionHandler {
                 "Unexpected error" : "Unexpected error: %s".formatted(ex.getMessage());
         return ResponseEntity
                 .internalServerError()
+                .body(new ErrorResponse(message));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    ResponseEntity<ErrorResponse> handleMissingValue(HttpMessageNotReadableException ex, WebRequest request) {
+        String message = (ex.getMessage() == null) ?
+                "Error" : "Error: %s".formatted(ex.getMessage());
+        return ResponseEntity
+                .badRequest()
                 .body(new ErrorResponse(message));
     }
 
