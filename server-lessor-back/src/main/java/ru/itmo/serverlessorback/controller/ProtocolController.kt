@@ -7,16 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.itmo.serverlessorback.controller.model.response.ErrorResponse
 import ru.itmo.serverlessorback.service.LocationService
+import ru.itmo.serverlessorback.service.ProtocolService
 import ru.itmo.serverlessorback.utils.HttpResponse
 
 @RestController
 @RequestMapping("/api/locations")
 class ProtocolController(
-    val locationService: LocationService
+    val protocolService: ProtocolService
 ) {
     @GetMapping("")
     fun getAllLocations(): ResponseEntity<*> {
-        return locationService.findAll().toResponse()
+        return protocolService.findAll().toResponse()
     }
 
     fun Either<Throwable, *>.toResponse(): ResponseEntity<*> = fold(
