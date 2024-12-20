@@ -4,7 +4,6 @@ import com.jcraft.jsch.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,18 +16,7 @@ public class SshConnectionUtil {
 
     private static final ExecutorService commandExecutor = Executors.newCachedThreadPool();
 
-    @Data
-    public static class SshCredentials {
-        private final String username;
-
-        private final String password;
-
-        private final String host;
-
-        private final int port;
-    }
-
-    public static String executeCommand(String command, SshCredentials credentials) throws Exception {
+    public static String executeCommand(String command, ProtocolCredentials credentials) throws Exception {
         var outputStream = new ByteArrayOutputStream();
         var errStream = new ByteArrayOutputStream();
         var session = createAndConfigureSession(credentials);
@@ -52,15 +40,15 @@ public class SshConnectionUtil {
         return res;
     }
 
-    public static Future<String> executeCommandAsync(String command, SshCredentials credentials) throws Exception {
+    public static Future<String> executeCommandAsync(String command, ProtocolCredentials credentials) throws Exception {
         return commandExecutor.submit(() -> executeCommand(command, credentials));
     }
 
-    private static Session createAndConfigureSession(SshCredentials credentials) throws Exception {
+    private static Session createAndConfigureSession(ProtocolCredentials credentials) throws Exception {
         var connection = new JSch();
 
-        var session = connection.getSession(credentials.username, credentials.host, credentials.port);
-        session.setPassword(credentials.password);
+        var session = connection.getSession(credentials.getUsername(), credentials.getHost(), credentials.getPort());
+        session.setPassword(credentials.getPassword());
         session.setConfig("StrictHostKeyChecking", "no");
 
         return session;
