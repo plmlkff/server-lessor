@@ -26,9 +26,11 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.liquibase:liquibase-core")
     implementation("io.vavr:vavr:0.10.5")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.4.0")
+    implementation("com.jcraft:jsch:0.1.54")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("org.eclipse.angus:angus-mail:2.0.3")
