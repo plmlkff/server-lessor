@@ -4,6 +4,7 @@ import com.jcraft.jsch.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,14 +30,20 @@ public class SshConnectionUtil {
 
     public static String executeCommand(String command, SshCredentials credentials) throws Exception {
         var outputStream = new ByteArrayOutputStream();
+        var errStream = new ByteArrayOutputStream();
         var session = createAndConfigureSession(credentials);
         session.connect();
 
         var channel = (ChannelExec) session.openChannel("exec");
         channel.setCommand(command);
         channel.setOutputStream(outputStream);
+        channel.setErrStream(errStream);
 
         sendAndWait(channel);
+
+        if (errStream.size() != 0){
+            throw new Exception(String.format("Can not execute command!\nServer error: %s", errStream));
+        }
 
         var res = outputStream.toString();
 
