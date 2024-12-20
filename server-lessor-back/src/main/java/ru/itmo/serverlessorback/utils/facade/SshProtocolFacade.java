@@ -1,13 +1,13 @@
 package ru.itmo.serverlessorback.utils.facade;
 
 import ru.itmo.serverlessorback.utils.SshConnectionUtil;
-import ru.itmo.serverlessorback.utils.SshConnectionUtil.SshCredentials;
+import ru.itmo.serverlessorback.utils.ProtocolCredentials;
 
 import java.util.UUID;
 
-public class SshConnectionFacade {
+public class SshProtocolFacade implements ProtocolFacade{
 
-    public static SshCredentials createUser(SshCredentials rootCredentials) throws Exception {
+    public ProtocolCredentials create(ProtocolCredentials rootCredentials, Object...args) throws Exception {
         String randString = UUID.randomUUID().toString();
         String userName = randString.substring(0, 7);
         String passwd = randString.substring(9, 15);
@@ -17,15 +17,18 @@ public class SshConnectionFacade {
             SshConnectionUtil.executeCommand(preparedCommand, rootCredentials);
         } catch (Exception e){
             if (!e.getMessage().contains("successfully")){
-                removeUser(rootCredentials, userName);
+                remove(rootCredentials, userName);
                 throw e;
             }
         }
 
-        return new SshCredentials(userName, passwd, rootCredentials.getHost(), rootCredentials.getPort());
+        return new ProtocolCredentials(userName, passwd, rootCredentials.getHost(), rootCredentials.getPort());
     }
 
-    public static boolean removeUser(SshCredentials rootCredentials, String userLogin) {
+    public boolean remove(ProtocolCredentials rootCredentials, Object...args) {
+        if (args.length == 0) return false;
+
+        String userLogin = (String) args[0];
         try {
             String preparedCommand = String.format(Commands.REMOVE_USER, userLogin);
 
