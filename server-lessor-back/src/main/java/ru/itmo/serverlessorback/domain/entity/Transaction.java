@@ -1,11 +1,21 @@
 package ru.itmo.serverlessorback.domain.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import ru.itmo.serverlessorback.domain.entity.enums.TransactionStatus;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static ru.itmo.serverlessorback.domain.entity.Transaction.TABLE_NAME;
@@ -22,24 +32,24 @@ public class Transaction {
 
     @NotNull
     @Column(name = "creation_time")
-    private Date creationTime;
+    private LocalDateTime creationTime;
 
     @NotNull
     @Column
-    private Double amount;
+    private Float amount;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
     @Column(name = "update_time")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User creator;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subscription_id")
     private Subscription subscription;
 

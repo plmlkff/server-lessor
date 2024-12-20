@@ -2,6 +2,8 @@ package ru.itmo.serverlessorback.domain.entity.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Arrays;
+
 public enum Role implements GrantedAuthority {
     USER("ROLE_USER"),
 
@@ -16,5 +18,12 @@ public enum Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return roleName;
+    }
+
+    public static Role fromAuthority(String authority) {
+        return Arrays.stream(Role.values())
+                .filter(role -> role.roleName.equals(authority))
+                .findFirst()
+                .orElse(null);
     }
 }

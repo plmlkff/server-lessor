@@ -32,9 +32,9 @@ CREATE TABLE "subscription"
     "id"              UUID                           NOT NULL PRIMARY KEY,
     "tariff_id"       UUID                           NULL,
     "user_id"         UUID                           NOT NULL,
-    "creation_time"   TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "expiration_time" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "auto_fund"       BOOLEAN                        NULL
+    "creation_time"   TIMESTAMP(0) WITHOUT TIME ZONE NULL,
+    "expiration_time" TIMESTAMP(0) WITHOUT TIME ZONE NULL,
+    "auto_fund"       BOOLEAN                        NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE "transaction"

@@ -17,5 +17,5 @@ spring:
     enabled: true
 
   jwt:
-    life-time: 3600000
+    life-time: 3600000  # ms
     secret: ${SECRET}

@@ -15,7 +15,7 @@ public class TariffServiceImpl implements TariffService {
     private final TariffRepository tariffRepository;
 
     @Override
-    public Either<Exception, List<GetAllTariffsResponse>> getAllTariffs() {
+    public Either<Exception, List<GetAllTariffsResponse>> findAllTariffs() {
         try {
             return Either.right(tariffRepository.findAll()
                     .stream()

@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -55,4 +56,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<UserRole> roles;
+
+    @NotNull
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    private Subscription subscription;
 }

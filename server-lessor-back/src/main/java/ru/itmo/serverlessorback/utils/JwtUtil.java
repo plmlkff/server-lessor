@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,8 +42,6 @@ public class JwtUtil {
         Claims claims = Jwts.claims();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         claims.put("roles", String.join(",", roles));
-        System.out.println(userDetails.getUsername());
-        System.out.println(key.toString());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
@@ -80,6 +79,8 @@ public class JwtUtil {
     private Set<Role> stringToRoles(String roleString) {
         if (roleString == null) return new HashSet<>();
         return Arrays.stream(roleString.split(","))
-                .map(Role::valueOf).collect(Collectors.toSet());
+                .map(Role::fromAuthority)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 }
