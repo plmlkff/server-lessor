@@ -58,7 +58,7 @@ class TransactionServiceImpl(
         }
         transaction.subscription.apply {
             creationTime = transaction.updateTime
-            expirationTime = creationTime
+            expirationTime = creationTime.plusMonths(1) // TODO: конфигурируемый параметр
             tariff = transaction.tariff
         }
         transactionRepository.save(transaction)

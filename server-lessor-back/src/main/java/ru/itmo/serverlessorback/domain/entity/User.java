@@ -58,6 +58,6 @@ public class User {
     private List<UserRole> roles;
 
     @NotNull
-    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Subscription subscription;
 }

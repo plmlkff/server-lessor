@@ -23,8 +23,7 @@ CREATE TABLE "server"
     "id"            UUID PRIMARY KEY,
     "location_id"   UUID NOT NULL,
     "ip"            TEXT NOT NULL UNIQUE,
-    "root_login"    TEXT NOT NULL,
-    "root_password" TEXT NOT NULL
+    "root_login"    TEXT NOT NULL
 );
 
 CREATE TABLE "subscription"
@@ -59,12 +58,12 @@ CREATE TABLE "location"
 CREATE TABLE "configuration"
 (
     "id"              UUID PRIMARY KEY,
-    "login"           TEXT                           NOT NULL UNIQUE,
-    "password"        TEXT                           NOT NULL,
+    "login"           TEXT                           NOT NULL,
     "subscription_id" UUID                           NOT NULL,
     "server_id"       UUID                           NOT NULL,
     "protocol_id"     UUID                           NOT NULL,
-    "deleted_time"    TIMESTAMP(0) WITHOUT TIME ZONE NULL
+    "deleted_time"    TIMESTAMP(0) WITHOUT TIME ZONE NULL,
+    UNIQUE ("login", "server_id")
 );
 
 CREATE TABLE "tariff"

@@ -2,6 +2,7 @@ package ru.itmo.serverlessorback.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,10 +38,10 @@ public class Subscription {
     @Column(name = "auto_fund")
     private Boolean autoFund = false;
 
-    @OneToMany(mappedBy = "subscription")
+    @OneToMany(mappedBy = "subscription", fetch = FetchType.LAZY)
     private List<Configuration> configurations;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
 

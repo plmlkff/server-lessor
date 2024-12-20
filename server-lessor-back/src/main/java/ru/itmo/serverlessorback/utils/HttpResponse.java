@@ -29,6 +29,10 @@ public class HttpResponse {
         return error(HttpStatus.NOT_FOUND, body);
     }
 
+    public static ResponseEntity<ErrorResponse> forbidden(ErrorResponse body) {
+        return error(HttpStatus.FORBIDDEN, body);
+    }
+
     public static ResponseEntity<ErrorResponse> error(HttpStatus status, ErrorResponse body) {
         return ResponseEntity.status(status)
                 .body(body);
