@@ -23,7 +23,8 @@ CREATE TABLE "server"
     "id"            UUID PRIMARY KEY,
     "location_id"   UUID NOT NULL,
     "ip"            TEXT NOT NULL UNIQUE,
-    "root_login"    TEXT NOT NULL
+    "root_login"    TEXT NOT NULL,
+    "root_password" TEXT NOT NULL
 );
 
 CREATE TABLE "subscription"

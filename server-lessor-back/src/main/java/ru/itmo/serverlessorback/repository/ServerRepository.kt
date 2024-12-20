@@ -12,14 +12,29 @@ import java.util.UUID
 
 @Repository
 interface ServerRepository : JpaRepository<Server, UUID> {
-    @Query("""
-        SELECT DISTINCT s FROM Server s
+    @Query(
+        """
+        SELECT s FROM Server s
         JOIN s.protocols p
         WHERE (:country IS NULL OR s.location.country = :country)
           AND (p.type = :protocolType)
-    """)
+        """
+    )
     fun findFirstByCountryAndProtocolType(
         @Param("country") country: String?,
         @Param("protocolType") protocolType: ProtocolType
     ): Optional<Server>
+
+    @Query(
+        """
+        SELECT s FROM Server s
+        JOIN s.protocols p
+        WHERE (:country IS NULL OR s.location.country = :country)
+            AND (:type IS NULL OR p.type = :type)
+        """
+    )
+    fun findAllByCountryAndProtocolType(
+        @Param("country") country: String?,
+        @Param("type") type: ProtocolType?
+    ): List<Server>
 }

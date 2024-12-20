@@ -38,6 +38,10 @@ public class Server {
     @Column(name = "root_login")
     private String rootLogin;
 
+    @NotNull
+    @Column(name = "root_password")
+    private String rootPassword;
+
     @ManyToOne
     @JoinColumn
     private Location location;
