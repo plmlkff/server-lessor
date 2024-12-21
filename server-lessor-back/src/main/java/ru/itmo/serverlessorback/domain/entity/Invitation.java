@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import ru.itmo.serverlessorback.domain.entity.enums.InvitationStatus;
 
@@ -30,6 +31,7 @@ public class Invitation {
 
     @Enumerated(EnumType.STRING)
     @Column
+    @NotNull
     private InvitationStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)

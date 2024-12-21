@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itmo.serverlessorback.controller.model.response.AuthUserResponse;
+import ru.itmo.serverlessorback.domain.entity.Invitation;
 import ru.itmo.serverlessorback.domain.entity.Subscription;
 import ru.itmo.serverlessorback.domain.entity.User;
 import ru.itmo.serverlessorback.domain.entity.UserRole;
+import ru.itmo.serverlessorback.domain.entity.enums.InvitationStatus;
 import ru.itmo.serverlessorback.domain.entity.enums.Role;
 import ru.itmo.serverlessorback.exception.AlreadyExistsException;
 import ru.itmo.serverlessorback.exception.AuthenticationException;
@@ -55,10 +57,19 @@ public class AuthServiceImpl implements AuthService {
         UserRole userRole = userRoleRepository.findByName(Role.USER)
                 .orElseThrow(() -> new IllegalStateException("Роль USER не найдена"));
 
+        Optional<User> refereeUserOpt = userRepository.findByRefCode(refCode);
+        refereeUserOpt.ifPresent(
+                (refereeUser) -> {
+                    Invitation invitation = new Invitation();
+                    invitation.setReferral(user);
+                    invitation.setReferee(refereeUser);
+                    invitation.setStatus(InvitationStatus.REGISTERED);
+                    refereeUser.getReferrals().add(invitation);
+                    userRepository.save(refereeUser);
+                }
+        );
         user.setRoles(List.of(userRole));
-        user = userRepository.save(user);
-
-        // TODO: добавить рефералку
+        userRepository.save(user);
 
         String accessToken = jwtUtil.createToken(JwtUserDetails.fromDomain(user));
         return Either.right(AuthUserResponse.fromDomain(user, accessToken));
