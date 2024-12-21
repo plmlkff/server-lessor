@@ -1,5 +1,6 @@
 package ru.itmo.serverlessorback.utils.facade;
 
+import ru.itmo.serverlessorback.exception.CanNotCreateConfigurationException;
 import ru.itmo.serverlessorback.utils.SshConnectionUtil;
 import ru.itmo.serverlessorback.utils.ProtocolCredentials;
 
@@ -9,7 +10,7 @@ public class SshProtocolFacade implements ProtocolFacade{
 
     public ProtocolCredentials create(ProtocolCredentials rootCredentials, Object...args) throws Exception {
         String randString = UUID.randomUUID().toString();
-        String userName = randString.substring(0, 7);
+        String userName = randString.substring(0, 7) + "l";
         String passwd = randString.substring(9, 15);
         String preparedCommand = String.format(Commands.CREATE_USER_AND_SET_PASSWORD, userName, userName, passwd, passwd, userName);
 
@@ -18,7 +19,7 @@ public class SshProtocolFacade implements ProtocolFacade{
         } catch (Exception e){
             if (!e.getMessage().contains("successfully")){
                 remove(rootCredentials, userName);
-                throw e;
+                throw new CanNotCreateConfigurationException("Не удалось создать конфигурацию!");
             }
         }
 

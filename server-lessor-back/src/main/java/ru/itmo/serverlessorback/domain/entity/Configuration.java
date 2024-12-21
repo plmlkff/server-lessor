@@ -1,17 +1,29 @@
 package ru.itmo.serverlessorback.domain.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static ru.itmo.serverlessorback.domain.entity.Configuration.TABLE_NAME;
 
 @Data
 @Entity
-@Table(name = TABLE_NAME)
+@Table(name = TABLE_NAME,
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"login", "server_id"})
+        }
+)
 public class Configuration {
     public static final String TABLE_NAME = "configuration";
 
@@ -20,15 +32,11 @@ public class Configuration {
     private UUID id;
 
     @NotNull
-    @Column(unique = true)
+    @Column(name = "login")
     private String login;
 
-    @NotNull
-    @Column
-    private String password;
-
     @Column(name = "deleted_time")
-    private Date deletedTime;
+    private LocalDateTime deletedTime;
 
     @ManyToOne
     @JoinColumn(name = "subscription_id")

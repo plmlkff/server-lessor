@@ -12,10 +12,9 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   liquibase:
     enabled: true
-
   jwt:
-    life-time: 3600000
+    life-time: 3600000  # ms
     secret: ${SECRET}

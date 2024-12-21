@@ -41,3 +41,5 @@ out/
 
 ### DEV ###
 .env-tmp
+.env
+

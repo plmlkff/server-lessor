@@ -11,6 +11,7 @@ import java.util.concurrent.Future;
 
 @RequiredArgsConstructor
 public class SshConnectionUtil {
+    private static final int CONNECTING_WAITING_TIME_IN_MS = 5000;
     private static final int THREAD_WAITING_TIME_IN_MS = 100;
     private static final int WAITING_LOOP_ITERATION_LIMIT = 600;
 
@@ -20,7 +21,7 @@ public class SshConnectionUtil {
         var outputStream = new ByteArrayOutputStream();
         var errStream = new ByteArrayOutputStream();
         var session = createAndConfigureSession(credentials);
-        session.connect();
+        session.connect(CONNECTING_WAITING_TIME_IN_MS);
 
         var channel = (ChannelExec) session.openChannel("exec");
         channel.setCommand(command);

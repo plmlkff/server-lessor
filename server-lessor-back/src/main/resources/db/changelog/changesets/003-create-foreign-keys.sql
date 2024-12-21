@@ -3,7 +3,7 @@ ALTER TABLE
     ADD CONSTRAINT "user_to_role_role_id_foreign" FOREIGN KEY ("role_id") REFERENCES "user_role" ("id");
 ALTER TABLE
     "user_to_role"
-    ADD CONSTRAINT "user_to_role_client_id_foreign" FOREIGN KEY ("client_id") REFERENCES "user" ("id");
+    ADD CONSTRAINT "user_to_role_client_id_foreign" FOREIGN KEY ("client_id") REFERENCES "users" ("id");
 
 ALTER TABLE
     "server"
@@ -11,7 +11,7 @@ ALTER TABLE
 
 ALTER TABLE
     "subscription"
-    ADD CONSTRAINT "subscription_user_id_foreign" FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+    ADD CONSTRAINT "subscription_user_id_foreign" FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 ALTER TABLE
     "subscription"
     ADD CONSTRAINT "subscription_tariff_id_foreign" FOREIGN KEY ("tariff_id") REFERENCES "tariff" ("id");
@@ -24,7 +24,7 @@ ALTER TABLE
     ADD CONSTRAINT "transaction_subscription_id_foreign" FOREIGN KEY ("subscription_id") REFERENCES "subscription" ("id");
 ALTER TABLE
     "transaction"
-    ADD CONSTRAINT "transaction_user_id_foreign" FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+    ADD CONSTRAINT "transaction_user_id_foreign" FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
 ALTER TABLE
     "configuration"
@@ -38,10 +38,10 @@ ALTER TABLE
 
 ALTER TABLE
     "invitation"
-    ADD CONSTRAINT "invitation_referral_id_foreign" FOREIGN KEY ("referral_id") REFERENCES "user" ("id");
+    ADD CONSTRAINT "invitation_referral_id_foreign" FOREIGN KEY ("referral_id") REFERENCES "users" ("id");
 ALTER TABLE
     "invitation"
-    ADD CONSTRAINT "invitation_referee_id_foreign" FOREIGN KEY ("referee_id") REFERENCES "user" ("id");
+    ADD CONSTRAINT "invitation_referee_id_foreign" FOREIGN KEY ("referee_id") REFERENCES "users" ("id");
 
 ALTER TABLE
     "protocol_to_server"

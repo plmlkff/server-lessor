@@ -37,8 +37,14 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/api/users/**")
+                                .requestMatchers("/api/users/auth")
                                 .permitAll()
+                                .requestMatchers("/api/users/signup")
+                                .permitAll()
+                                .requestMatchers("/api/transactions/*/pay")
+                                .permitAll()
+                                .requestMatchers("/api/admin/**")
+                                .hasRole("ADMIN")
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                                 .permitAll()
                                 .anyRequest().authenticated())
