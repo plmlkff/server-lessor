@@ -23,7 +23,6 @@ $$
     LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_on_transaction_paid
-    AFTER UPDATE OF status
-    ON transaction
+    AFTER UPDATE ON transaction
     FOR EACH ROW
 EXECUTE FUNCTION on_transaction_paid();
