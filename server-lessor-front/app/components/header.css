@@ -1,0 +1,33 @@
+.header {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    height: 50px;
+    font-size: 20px;
+    align-items: center;
+    border-bottom: 1px solid #575757;
+}
+
+.header > * {
+    padding: 10px;
+    transition: var(--fast-transition);
+}
+
+.header > *:hover {
+    color: #898989;
+}
+
+.header > *.disabled {
+    color: #898989;
+    cursor: text;
+    position: relative;
+}
+
+.header > *.disabled::before {
+    content: "";
+    box-shadow: 0 0 20px 2px var(--foreground);
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 80%;
+}

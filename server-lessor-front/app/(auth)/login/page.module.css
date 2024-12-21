@@ -1,0 +1,136 @@
+.title {
+	margin-top: 5vh;
+	font-family: sans-serif;
+	font-size: 36px;
+	font-weight: 700;
+	line-height: 43px;
+    text-align: center;
+	text-transform: uppercase;
+	color: var(--foreground);
+}
+
+.subtitle {
+	font-family: sans-serif;
+	font-size: 12pt;
+	text-align: center;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: var(--foreground);
+}
+
+.form {
+	position: relative;
+	margin-top: 13vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 11pt;
+}
+
+.form label {
+    user-select: none;
+    text-align: left;
+}
+
+.form input {
+    font-size: 11pt;
+    border: 1px solid var(--background);
+    border-radius: 5px;
+    padding: 7px;
+    height: fit-content;
+    margin-top: 10px;
+	min-width: min(474px, 80vw);
+	transition: var(--fast-transition);
+}
+
+.form input:focus {
+    border-color: cornflowerblue;
+    outline: none;
+	box-shadow: 1px 1px 4px -1px var(--background);
+}
+
+.form button {
+    font-size: 12pt;
+    font-family: inherit;
+    background: var(--foreground);
+    color: var(--background);
+    border: 1px solid var(--foreground);
+    border-radius: 25px;
+    padding: 10px 55px;
+    cursor: pointer;
+    transition: var(--fast-transition);
+}
+
+.form button:hover, .form button:disabled {
+	background: var(--background);
+	color: var(--foreground);
+}
+
+.invisible {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.forgot_link {
+	text-align: center;
+	text-decoration: underline;
+	color: var(--background);
+}
+
+.forgot_link:hover {
+	filter: brightness(70%);
+}
+
+.phone_number {
+	transition: var(--fast-transition);
+	background: var(--background);
+	color: white;
+	border: 1px solid var(--background);
+}
+
+.phone_number:hover {
+	background: white;
+	color: var(--background);
+}
+
+.buttons {
+	display: grid;
+	min-width: min(474px, 80vw);
+	/*grid-template-columns: 1fr 1fr 1fr;*/
+	align-items: center;
+}
+
+.buttons::before {
+	content: '';
+	grid-column: 1;
+}
+
+.register_link {
+	font-weight: 400;
+	font-size: 16px;
+	text-align: center;
+	text-decoration: underline;
+	color: var(--foreground);
+}
+
+.register_link:hover {
+	filter: brightness(70%);
+}
+
+@media (max-width: 500px) {
+	.socials button {
+		width: 75vw;
+	}
+
+	.buttons {
+		/*grid-template-columns: 1fr 1fr;*/
+		row-gap: 15px;
+	}
+
+	.buttons::before {
+		content: none;
+	}
+}

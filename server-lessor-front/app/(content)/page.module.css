@@ -1,0 +1,79 @@
+.main {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    margin-top: 5vh;
+    font-family: sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 43px;
+    text-align: center;
+    color: var(--foreground);
+}
+
+.tariffs {
+    display: grid;
+    margin-top: 20px;
+    box-shadow: 0 0 100px -90px var(--foreground);
+    border-radius: 10px;
+}
+
+.tariffs > * {
+    border: #575757 1px solid;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tariffs > *:first-child {
+    border-radius: 10px 0 0 10px;
+    border-right: 0;
+}
+
+.tariffs > *:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.tariff_price {
+    font-weight: bold;
+    font-size: 44px;
+    display: flex;
+}
+
+.tariff_price > p {
+    font-size: 28px;
+    height: 100%;
+    width: max-content;
+    color: #898989;
+}
+
+.tariff_price > div {
+    font-size: 14px;
+    color: #4E4E4E;
+    margin-left: 10px;
+    margin-top: auto;
+}
+
+.purchase {
+    width: 100%;
+    font-size: 12pt;
+    font-family: inherit;
+    background: var(--foreground);
+    color: var(--background);
+    border: 1px solid var(--foreground);
+    border-radius: 25px;
+    padding: 10px 55px;
+    cursor: pointer;
+    transition: var(--fast-transition);
+}
+
+.purchase:hover {
+    background: var(--background);
+    color: var(--foreground);
+}
