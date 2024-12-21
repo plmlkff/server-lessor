@@ -14,7 +14,7 @@ import java.util.UUID
 interface ServerRepository : JpaRepository<Server, UUID> {
     @Query(
         """
-        SELECT s FROM Server s
+        SELECT DISTINCT s FROM Server s
         JOIN s.protocols p
         WHERE (:country IS NULL OR s.location.country = :country)
           AND (p.type = :protocolType)

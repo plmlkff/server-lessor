@@ -1,7 +1,7 @@
 -- -------------------------------------------------------------------------
 -- 0. Убедимся, что в базе подключено расширение pgcrypto (для gen_random_uuid).
 --    Если расширение не установлено, раскомментируйте следующие строки (при наличии прав суперпользователя):
--- CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 -- -------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------
@@ -26,7 +26,7 @@ BEGIN
         VALUES (
             gen_random_uuid(),
             'user_' || i,
-            'pass_' || i,
+            encode(digest('pass_' || i, 'sha512'), 'hex'),
             i * 100
         );
     END LOOP;
@@ -170,7 +170,7 @@ BEGIN
             -- Определим случайную сумму
             amt := (random()*50 + 5)::numeric(6,2);  -- например, от 5 до 55 долларов
             -- Выбираем случайный статус из набора [NEW, PAID, CANCELED]
-            SELECT (ARRAY['NEW','PAID','CANCELED'])[1 + (random()*2)::INT] INTO st;
+            SELECT (ARRAY['NEW', 'PAID', 'CANCELED'])[1 + (random()*2)::INT] INTO st;
             
             INSERT INTO transaction (
                 id, user_id, subscription_id,
@@ -218,7 +218,7 @@ BEGIN
         VALUES (
             usr_ref.id,
             usr_new.id,
-            CASE WHEN random() < 0.5 THEN 'PENDING' ELSE 'DEPOSITED' END
+            CASE WHEN random() < 0.5 THEN 'REGISTERED' ELSE 'DEPOSITED' END
         )
         ON CONFLICT DO NOTHING;  -- на случай если уже есть такая пара
     END LOOP;
@@ -229,10 +229,11 @@ $$;
 -- 10. Заполним таблицу protocol (несколько типов протоколов)
 ---------------------------------------------------------------------------
 INSERT INTO protocol (id, type, port) VALUES
-    (gen_random_uuid(), 'OpenVPN', 1194),
-    (gen_random_uuid(), 'WireGuard', 51820),
-    (gen_random_uuid(), 'L2TP/IPSec', 1701),
-    (gen_random_uuid(), 'IKEv2', 500);
+    (gen_random_uuid(), 'SSH', 22),
+    (gen_random_uuid(), 'SSH', 2222),
+    (gen_random_uuid(), 'FTP', 21),
+    (gen_random_uuid(), 'HTTPS', 443),
+    (gen_random_uuid(), 'HTTP', 80);
 
 ---------------------------------------------------------------------------
 -- 11. Свяжем протоколы с серверами (protocol_to_server)

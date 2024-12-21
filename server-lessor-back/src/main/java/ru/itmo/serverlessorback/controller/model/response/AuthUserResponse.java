@@ -21,6 +21,7 @@ public class AuthUserResponse {
         response.setId(user.getId());
         response.setLogin(user.getLogin());
         response.setRoles(user.getRoles().stream().map(UserRole::getName).toList());
+        response.setReferralCode(user.getRefCode());
         response.setAccessToken(accessToken);
         return response;
     }
