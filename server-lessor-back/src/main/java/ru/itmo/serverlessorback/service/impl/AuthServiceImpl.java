@@ -57,19 +57,22 @@ public class AuthServiceImpl implements AuthService {
         UserRole userRole = userRoleRepository.findByName(Role.USER)
                 .orElseThrow(() -> new IllegalStateException("Роль USER не найдена"));
 
+        user.setRoles(List.of(userRole));
+        userRepository.save(user);
+
         Optional<User> refereeUserOpt = userRepository.findByRefCode(refCode);
         refereeUserOpt.ifPresent(
                 (refereeUser) -> {
                     Invitation invitation = new Invitation();
+                    var key = new Invitation.Key(refereeUser.getId(), user.getId());
                     invitation.setReferral(user);
                     invitation.setReferee(refereeUser);
                     invitation.setStatus(InvitationStatus.REGISTERED);
+                    invitation.setId(key);
                     refereeUser.getReferrals().add(invitation);
                     userRepository.save(refereeUser);
                 }
         );
-        user.setRoles(List.of(userRole));
-        userRepository.save(user);
 
         String accessToken = jwtUtil.createToken(JwtUserDetails.fromDomain(user));
         return Either.right(AuthUserResponse.fromDomain(user, accessToken));

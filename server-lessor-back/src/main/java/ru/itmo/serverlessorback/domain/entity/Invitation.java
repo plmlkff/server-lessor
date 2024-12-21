@@ -12,7 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.itmo.serverlessorback.domain.entity.enums.InvitationStatus;
 
 import java.io.Serializable;
@@ -46,6 +48,8 @@ public class Invitation {
 
     @Embeddable
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Key implements Serializable {
         private UUID refereeId;
 

@@ -11,6 +11,7 @@ import ru.itmo.serverlessorback.domain.entity.Server
 import ru.itmo.serverlessorback.domain.entity.User
 import ru.itmo.serverlessorback.domain.entity.enums.ProtocolType
 import ru.itmo.serverlessorback.domain.entity.enums.Role
+import ru.itmo.serverlessorback.exception.CanNotRemoveConfigurationException
 import ru.itmo.serverlessorback.exception.ForbiddenException
 import ru.itmo.serverlessorback.exception.NotFoundException
 import ru.itmo.serverlessorback.repository.ConfigurationRepository
@@ -151,7 +152,9 @@ class ConfigurationServiceImpl(
             protocol.port
         )
 
-        protocolFacade.remove(rootCredentials, username)
+        if (!protocolFacade.remove(rootCredentials, username)){
+            throw CanNotRemoveConfigurationException("Ошибка удаления конфигурации!")
+        }
 
         val body = """
             Данные вашей конфигурации:
