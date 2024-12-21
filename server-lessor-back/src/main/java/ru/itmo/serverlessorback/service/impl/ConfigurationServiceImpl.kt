@@ -151,6 +151,8 @@ class ConfigurationServiceImpl(
             protocol.port
         )
 
+        protocolFacade.remove(rootCredentials, username)
+
         val body = """
             Данные вашей конфигурации:
             Хост: ${rootCredentials.host}
@@ -159,7 +161,5 @@ class ConfigurationServiceImpl(
         """.trimIndent()
 
         MailsUtil.sendMail("Конфигурация удалена", body, user.login)
-
-        protocolFacade.remove(rootCredentials, username)
     }
 }

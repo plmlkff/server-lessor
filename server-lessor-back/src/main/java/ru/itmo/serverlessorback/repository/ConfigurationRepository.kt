@@ -12,6 +12,9 @@ import java.util.UUID
 interface ConfigurationRepository : JpaRepository<Configuration, UUID> {
     fun countBySubscriptionAndDeletedTimeIsNull(subscription: Subscription): Long
 
+    @Query("SELECT * FROM delete_expired_subscriptions_and_configs()", nativeQuery = true)
+    fun deleteExpiredSubscriptionsAndConfigs(): List<Configuration>
+
     @Query("""
         SELECT c FROM Configuration c
         WHERE (:serverId IS NULL OR c.server.id = :serverId)
