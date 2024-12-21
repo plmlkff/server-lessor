@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.itmo.serverlessorback.controller.model.response.UserResponse;
+import ru.itmo.serverlessorback.controller.model.response.AuthUserResponse;
 import ru.itmo.serverlessorback.domain.entity.Subscription;
 import ru.itmo.serverlessorback.domain.entity.User;
 import ru.itmo.serverlessorback.domain.entity.UserRole;
@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public Either<Exception, UserResponse> signUp(String login, String password, Integer refCode) {
+    public Either<Exception, AuthUserResponse> signUp(String login, String password, Integer refCode) {
         Optional<User> userOption = userRepository.findByLogin(login);
         if (userOption.isPresent()) {
             return Either.left(new AlreadyExistsException("Пользователь с указанным именем уже существует"));
@@ -61,12 +61,12 @@ public class AuthServiceImpl implements AuthService {
         // TODO: добавить рефералку
 
         String accessToken = jwtUtil.createToken(JwtUserDetails.fromDomain(user));
-        return Either.right(UserResponse.fromDomain(user, accessToken));
+        return Either.right(AuthUserResponse.fromDomain(user, accessToken));
     }
 
     @Transactional
     @Override
-    public Either<Exception, UserResponse> login(String login, String password) {
+    public Either<Exception, AuthUserResponse> login(String login, String password) {
         Optional<User> userOption = userRepository.findByLogin(login);
         if (userOption.isEmpty()) {
             return Either.left(new NotFoundException("Пользователь с указанным именем не найден"));
@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
         User user = userOption.get();
         if (hashUtil.check(password, user.getPassword())) {
             String accessToken = jwtUtil.createToken(JwtUserDetails.fromDomain(user));
-            return Either.right(UserResponse.fromDomain(user, accessToken));
+            return Either.right(AuthUserResponse.fromDomain(user, accessToken));
         } else {
             return Either.left(new AuthenticationException("Неверный пароль"));
         }

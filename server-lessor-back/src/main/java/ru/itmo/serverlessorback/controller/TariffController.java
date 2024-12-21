@@ -29,7 +29,7 @@ public class TariffController {
                         return HttpResponse.notFound(new ErrorResponse(error.getMessage()));
                     } else {
                         return HttpResponse.unexpectedError(
-                                new ErrorResponse("Unexpected error: %s".formatted(error.getMessage()))
+                                new ErrorResponse("Неожиданная ошибка: %s".formatted(error.getMessage()))
                         );
                     }
                 },

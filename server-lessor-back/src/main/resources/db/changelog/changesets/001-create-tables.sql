@@ -88,7 +88,7 @@ CREATE TABLE "protocol"
 (
     "id"   UUID PRIMARY KEY,
     "type" TEXT    NOT NULL,
-    "port" INTEGER NOT NULL
+    "port" INTEGER NOT NULL CHECK ( "port" > 0 AND "port" < 65535 )
 );
 
 CREATE TABLE "protocol_to_server"

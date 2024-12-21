@@ -66,14 +66,14 @@ class ConfigurationServiceImpl(
             this.subscription = subscription
             this.server = server
             this.protocol = protocol
-        }   // TODO: отправить пароль на почту и создать и создать пользователя на сервере
+        }
 
         configurationRepository.save(configuration)
 
         ConfigurationResponse.fromDomain(configuration)
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional
     override fun deleteById(
         login: String,
         configurationId: UUID,

@@ -13,8 +13,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-  liquibase:
-    enabled: false
 
   jwt:
     life-time: 3600000  # ms

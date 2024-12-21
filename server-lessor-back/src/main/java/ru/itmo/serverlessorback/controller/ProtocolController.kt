@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.itmo.serverlessorback.controller.model.response.ErrorResponse
-import ru.itmo.serverlessorback.service.LocationService
 import ru.itmo.serverlessorback.service.ProtocolService
 import ru.itmo.serverlessorback.utils.HttpResponse
 
@@ -23,7 +22,7 @@ class ProtocolController(
     fun Either<Throwable, *>.toResponse(): ResponseEntity<*> = fold(
         ifLeft = { error ->
             HttpResponse.unexpectedError(
-                ErrorResponse("Unexpected error: ${error.message}")
+                ErrorResponse("Неожиданная ошибка: ${error.message}")
             )
         },
         ifRight = HttpResponse::ok

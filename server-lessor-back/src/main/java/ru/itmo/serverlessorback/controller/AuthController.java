@@ -58,7 +58,7 @@ public class AuthController {
                     }
                     else {
                         return HttpResponse.unexpectedError(
-                                new ErrorResponse("Unexpected error: %s".formatted(error.getMessage()))
+                                new ErrorResponse("Неожиданная ошибка: %s".formatted(error.getMessage()))
                         );
                     }
                 },
