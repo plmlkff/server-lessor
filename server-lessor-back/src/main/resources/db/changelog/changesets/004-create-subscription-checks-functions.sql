@@ -1,18 +1,18 @@
 CREATE OR REPLACE FUNCTION get_subscriptions_with_less_than_one_day_left()
-    RETURNS TABLE(id INT, expiration_time TIMESTAMP) AS
+    RETURNS TABLE(id UUID) AS
 $$
 BEGIN
     RETURN QUERY
-        SELECT *
+        SELECT subscription.id
         FROM subscription
-        WHERE expiration_time <= NOW() + INTERVAL '1 day'
-          AND expiration_time > NOW();
+        WHERE subscription.expiration_time <= NOW() + INTERVAL '1 day'
+          AND subscription.expiration_time > NOW();
 END;
 $$ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION delete_expired_subscriptions_and_configs()
-    RETURNS TABLE(id uuid, login varchar, deleted_time timestamp, server_id uuid, subscription_id uuid, protocol_id uuid) AS
+    RETURNS TABLE(id uuid, login text, deleted_time timestamp, server_id uuid, subscription_id uuid, protocol_id uuid) AS
 $$
 BEGIN
     -- Устанавливаем tariff_id = NULL для истекших подписок
