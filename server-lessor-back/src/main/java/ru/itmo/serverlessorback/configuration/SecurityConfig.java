@@ -41,7 +41,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/users/signup")
                                 .permitAll()
-                                .requestMatchers("/api/transactions/**/pay")
+                                .requestMatchers("/api/transactions/*/pay")
                                 .permitAll()
                                 .requestMatchers("/api/admin/**")
                                 .hasRole("ADMIN")
