@@ -38,11 +38,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, WebRequest request) {
-        String message = (ex.getMessage() == null) ?
-                "Невалидные данные в запросе" : ex.getMessage();
         return ResponseEntity
                 .badRequest()
-                .body(new ErrorResponse(message));
+                .body(new ErrorResponse("Невалидные данные в запросе"));
     }
 
     @ExceptionHandler(MissingRequestValueException.class)

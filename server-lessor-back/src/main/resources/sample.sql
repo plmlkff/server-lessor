@@ -116,10 +116,10 @@ $$;
 -- 6. Заполним таблицу tariff (несколько тарифов с разными лимитами и ценами)
 ---------------------------------------------------------------------------
 INSERT INTO tariff (id, name, config_count, price) VALUES
-    (gen_random_uuid(), 'Basic',    1,   5.99),
-    (gen_random_uuid(), 'Standard', 3,  12.50),
-    (gen_random_uuid(), 'Premium',  5,  20.00),
-    (gen_random_uuid(), 'Ultimate', 10, 35.00);
+    (gen_random_uuid(), 'Базовый',    1,   5.99),
+    (gen_random_uuid(), 'Стандарт', 3,  12.50),
+    (gen_random_uuid(), 'Преиум',  5,  20.00),
+    (gen_random_uuid(), 'Ульти', 10, 35.00);
 
 ---------------------------------------------------------------------------
 -- 7. Сгенерируем подписки (subscription).
@@ -231,10 +231,7 @@ $$;
 INSERT INTO protocol (id, type, port) VALUES
     (gen_random_uuid(), 'SSH', 22),
     (gen_random_uuid(), 'SSH', 2222),
-    (gen_random_uuid(), 'FTP', 21),
-    (gen_random_uuid(), 'HTTPS', 443),
-    (gen_random_uuid(), 'HTTP', 80);
-
+    (gen_random_uuid(), 'FTP', 21);
 ---------------------------------------------------------------------------
 -- 11. Свяжем протоколы с серверами (protocol_to_server)
 --     Пусть каждый протокол доступен на случайном наборе серверов
