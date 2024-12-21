@@ -1,7 +1,7 @@
 package ru.itmo.serverlessorback.utils.factory;
 
+import ru.itmo.serverlessorback.domain.entity.enums.ProtocolType;
 import ru.itmo.serverlessorback.exception.UnknownProtocolException;
-import ru.itmo.serverlessorback.utils.enums.ProtocolType;
 import ru.itmo.serverlessorback.utils.facade.ProtocolFacade;
 import ru.itmo.serverlessorback.utils.facade.SshProtocolFacade;
 

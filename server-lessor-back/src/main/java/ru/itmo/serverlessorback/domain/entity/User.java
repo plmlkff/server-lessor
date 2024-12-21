@@ -1,10 +1,20 @@
 package ru.itmo.serverlessorback.domain.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,18 +25,18 @@ import static ru.itmo.serverlessorback.domain.entity.User.TABLE_NAME;
 @Entity
 @Table(name = TABLE_NAME)
 public class User {
-    public static final String TABLE_NAME = "user";
+    public static final String TABLE_NAME = "users";
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @NotNull
-    @Column(unique = true, length = 64)
+    @Column(unique = true)
     private String login;
 
     @NotNull
-    @Column(length = 64)
+    @Column
     private String password;
 
     @NotNull
@@ -45,5 +55,9 @@ public class User {
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<User> users;
+    private List<UserRole> roles;
+
+    @NotNull
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Subscription subscription;
 }
