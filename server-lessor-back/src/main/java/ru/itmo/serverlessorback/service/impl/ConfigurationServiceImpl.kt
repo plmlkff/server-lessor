@@ -104,7 +104,9 @@ class ConfigurationServiceImpl(
         serverId: UUID?,
         userId: UUID?
     ): Either<Throwable, List<ConfigurationResponse>> = Either.catch {
-        val configurations = configurationRepository.findAllByServerIdAndUserId(serverId, userId)
+        val configurations = configurationRepository.findAllByServerIdAndUserId(serverId, userId).filter {
+            it.deletedTime == null
+        }
         configurations.map { ConfigurationResponse.fromDomain(it) }
     }
 
@@ -114,7 +116,7 @@ class ConfigurationServiceImpl(
     ): Either<Throwable, List<ConfigurationResponse>> = Either.catch {
         val user = userRepository.findByLogin(login)
             .orElseThrow { NotFoundException("Пользователя с указанным именем не существует") }
-        val configurations = user.subscription.configurations
+        val configurations = user.subscription.configurations.filter { it.deletedTime == null }
         configurations.map { ConfigurationResponse.fromDomain(it) }
     }
 

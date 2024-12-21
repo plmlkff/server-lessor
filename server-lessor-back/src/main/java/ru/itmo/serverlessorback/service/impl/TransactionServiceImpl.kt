@@ -22,7 +22,7 @@ class TransactionServiceImpl(
     val transactionRepository: TransactionRepository,
 ) : TransactionService {
     private fun generatePaymentUrl(transactionId: UUID): String {
-        return "/api/transactions/$transactionId"   // TODO: убрать хардкод
+        return "/transaction/$transactionId"   // TODO: убрать хардкод
     }
 
     @Transactional
