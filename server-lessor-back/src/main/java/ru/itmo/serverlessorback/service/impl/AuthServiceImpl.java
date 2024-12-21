@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
         user.setLogin(login);
         user.setPassword(hashUtil.hash(password));
-        user.setRefCode(new Random().nextInt());
+        user.setRefCode(Math.abs(new Random().nextInt()));
 
         Subscription subscription = new Subscription();
         subscription.setOwner(user);

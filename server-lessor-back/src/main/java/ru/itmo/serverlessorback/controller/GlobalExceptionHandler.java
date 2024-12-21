@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,6 +31,15 @@ public class GlobalExceptionHandler {
     ResponseEntity<ErrorResponse> handleMessageNotReadable(HttpMessageNotReadableException ex, WebRequest request) {
         String message = (ex.getMessage() == null) ?
                 "Ошибка" : "Ошибка: %s".formatted(ex.getMessage());
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorResponse(message));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, WebRequest request) {
+        String message = (ex.getMessage() == null) ?
+                "Невалидные данные в запросе" : ex.getMessage();
         return ResponseEntity
                 .badRequest()
                 .body(new ErrorResponse(message));
