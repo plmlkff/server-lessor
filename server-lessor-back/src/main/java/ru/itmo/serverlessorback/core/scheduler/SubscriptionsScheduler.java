@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class SubscriptionsScheduler {
     private final Logger log = LoggerFactory.getLogger(SubscriptionsScheduler.class);
 
-    private static final long SCHEDULER_RATE_SECONDS = 60;
+    private static final long SCHEDULER_RATE_SECONDS = 10;
 
     private final ProtocolFacadeFactory protocolFacadeFactory = new ProtocolFacadeFactory();
 
@@ -69,7 +69,7 @@ public class SubscriptionsScheduler {
 
             var email = subscription.getOwner().getLogin();
 
-            MailsUtil.sendMail("Конфигурация удалена", body, email);
+            MailsUtil.sendMail("Ваша подписка скоро закончится", body, email);
         }
     }
 
